@@ -10,18 +10,20 @@ class Solution {
     }
 
     private void backtrack(int[] arr, int target, int index,
-                           List<Integer> path, List<List<Integer>> result) {
+                           List<Integer> list, List<List<Integer>> result) {
 
         if (target == 0) {
-            result.add(new ArrayList<>(path));
+            result.add(new ArrayList<>(list));
             return;
         }
 
-        if (index == arr.length || target < 0)
-            return;
-        path.add(arr[index]);
-        backtrack(arr, target - arr[index], index, path, result);
-        path.remove(path.size() - 1);
-        backtrack(arr, target, index + 1, path, result);
+        if (target < 0) return;
+
+        for (int i = index; i < arr.length; i++) {
+
+            list.add(arr[i]);                        
+            backtrack(arr, target - arr[i], i, list, result); // reuse same element
+            list.remove(list.size() - 1);             // backtrack
+        }
     }
 }
